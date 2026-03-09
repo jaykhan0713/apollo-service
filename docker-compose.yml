@@ -1,20 +1,20 @@
 services:
-  service-template:
+  apollo-service:
     build:
       context: .
       dockerfile: Dockerfile.dev
       args:
         CODEARTIFACT_ENDPOINT: ${CODEARTIFACT_ENDPOINT}
         CODEARTIFACT_AUTH_TOKEN: ${CODEARTIFACT_AUTH_TOKEN}
-    image: service-template:dev
+    image: apollo-service:dev
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
       OTLP_ENABLED: "true"
       OTLP_ENDPOINT: "http://otel-collector:4318/v1/traces"
-      OTEL_SERVICE_NAME: "service-template"
-      OTEL_RESOURCE_ATTRIBUTES: "service.name=service-template"
+      OTEL_SERVICE_NAME: "apollo-service"
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=apollo-service"
     networks: [internal, platform]
     depends_on:
       - otel-collector

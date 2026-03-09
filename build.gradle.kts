@@ -13,7 +13,7 @@ plugins {
 
 group = "com.jay.template"
 version = "0.0.1-SNAPSHOT"
-description = "service-template"
+description = "apollo-service"
 
 java {
     toolchain {
@@ -132,7 +132,7 @@ sonarqube {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.organization", "jaykhan0713")
-        property("sonar.projectKey", "jaykhan0713_service-template")
+        property("sonar.projectKey", "jaykhan0713_apollo-service")
 
         // coverage settings
         property("sonar.sources", "src/main/java")

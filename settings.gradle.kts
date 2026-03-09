@@ -1,4 +1,4 @@
-rootProject.name = "service-template"
+rootProject.name = "apollo-service"
 
 // Default: CI publish and local dev + local docker uses the included project
 // CI sets DISABLE_LOCAL_DTO=true to force resolving from CodeArtifact.
