@@ -34,6 +34,33 @@ spring:
     # Auto configure embedded servlet container, Spring MVC, registers the DispatcherServlet
     web-application-type: servlet
 
+  #DB
+  datasource:
+    url: jdbc:postgresql://apollo-postgres:5432/apollo
+    username: apollo_user
+    password: apollo_password
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2 # don't keep all connections open when idle
+      connection-timeout: 3000 # fail fast if no connection avaiable (ms)
+      idle-timeout: 600000 # evict idle connections after 10 mins
+      max-lifetime: 1800000 # recycle connections before Postgres kills them (30 min)
+      keepalive-time: 60000 # modern — proactively keeps connections alive (1 minute)
+
+  jpa: #ORM abstraction,spring boot uses hibernate
+    open-in-view: false #if true, keeps EntityManager open for entire HTTP req lifecycle
+    hibernate:
+      ddl-auto: validate # never let Hibernate touch schema, Flyway handles it
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public
+        jdbc:
+          batch_size:  25 # batch inserts/updates instead of one SQL per entity
+        order_inserts: true # group inserts by type for effective batching
+        order_updates: true
+
 management:
   endpoints:
     web:

@@ -1,0 +1,36 @@
+package com.jay.apollo.bootstrap.observability.mdc.binding;
+
+import org.springframework.stereotype.Component;
+
+import com.jay.apollo.bootstrap.observability.properties.ObservabilityProperties;
+import com.jay.apollo.core.observability.mdc.MdcFieldNames;
+import com.jay.apollo.core.port.observability.mdc.MdcFieldNamesProvider;
+
+@Component
+public class PropertiesMdcFieldNamesResolver implements MdcFieldNamesProvider {
+
+    final MdcFieldNames mdcFieldNames;
+
+    public PropertiesMdcFieldNamesResolver(ObservabilityProperties obsProps) {
+        var propsMdc = obsProps.mdc();
+        var propsKindValues = propsMdc.kindValues();
+
+        var kindValues = new MdcFieldNames.KindValues(propsKindValues.http());
+
+        this.mdcFieldNames = new MdcFieldNames(
+                propsMdc.userId(),
+                propsMdc.requestId(),
+                propsMdc.kind(),
+                propsMdc.name(),
+                propsMdc.method(),
+                propsMdc.status(),
+                propsMdc.durationMs(),
+                kindValues
+        );
+    }
+
+    @Override
+    public MdcFieldNames mdcFieldNames() {
+        return mdcFieldNames;
+    }
+}

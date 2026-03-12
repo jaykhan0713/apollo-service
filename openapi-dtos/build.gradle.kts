@@ -9,7 +9,7 @@ java {
     }
 }
 
-group = "com.jay.template"
+group = "com.jay.apollo"
 version = "0.0.1-SNAPSHOT" //Source of truth for this lib's version. Bump when contract changes
 description = "Open API DTOs to be published"
 
@@ -35,7 +35,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
-            artifactId = "template-openapi-dtos"
+            artifactId = "apollo-openapi-dtos"
         }
     }
 

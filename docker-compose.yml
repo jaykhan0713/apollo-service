@@ -11,13 +11,40 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
+
+      #OTEL
       OTLP_ENABLED: "true"
       OTLP_ENDPOINT: "http://otel-collector:4318/v1/traces"
       OTEL_SERVICE_NAME: "apollo-service"
       OTEL_RESOURCE_ATTRIBUTES: "service.name=apollo-service"
-    networks: [internal, platform]
+
+      #SQL
+      SPRING_DATASOURCE_URL: jdbc:postgresql://apollo-postgres:5432/apollo
+      SPRING_DATASOURCE_USERNAME: apollo_user
+      SPRING_DATASOURCE_PASSWORD: apollo_password
+
+    networks: [internal]
     depends_on:
       - otel-collector
+      - apollo-postgres
+
+  apollo-postgres:
+    image: postgres:17
+    container_name: apollo-postgres
+    environment:
+      POSTGRES_DB: apollo
+      POSTGRES_USER: apollo_user
+      POSTGRES_PASSWORD: apollo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - apollo-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U apollo_user -d apollo' ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [internal]
 
   prometheus:
     image: prom/prometheus:latest
@@ -61,10 +88,9 @@ services:
 
 # make sure to run: docker network create platform
 networks:
-  platform:
-    external: true
   internal:
     driver: bridge #Containers on the same bridge can resolve each other by service name.
 
 volumes:
   grafana-data:
+  apollo-postgres-data:

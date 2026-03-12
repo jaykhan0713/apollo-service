@@ -11,7 +11,7 @@ plugins {
     id("org.sonarqube") version "6.3.1.5724"
 }
 
-group = "com.jay.template"
+group = "com.jay.apollo"
 version = "0.0.1-SNAPSHOT"
 description = "apollo-service"
 
@@ -51,7 +51,7 @@ repositories {
             }
 
             content {
-                includeGroup("com.jay.template") //service's own dto to consume from codeartifact
+                includeGroup("com.jay.apollo") //service's own dto to consume from codeartifact
 
                 //any dependency groups go here.
             }
@@ -71,6 +71,8 @@ dependencies {
 
     //micrometer
     implementation("io.micrometer:micrometer-registry-prometheus")
+    /* For vthread metrics, including pinned/start/unpark events */
+    implementation("io.micrometer:micrometer-java21")
 
     //OpenAPI
     implementation(platform("org.springdoc:springdoc-openapi-bom:3.0.0"))
@@ -86,13 +88,26 @@ dependencies {
     implementation(platform("io.opentelemetry:opentelemetry-bom:1.50.0"))
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
 
+    //SQL
+    /*
+     * JPA API, JDBC infra, Hibernate ORM, Spring Data repos, HikariCP connection pool,
+     * Spring transaction manager, datasource auto-config
+    */
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    /* Postgres SQL JDBC driver to talk to postgres */
+    runtimeOnly("org.postgresql:postgresql")
+    /* flyway springboot autoconfigure wiring*/
+    implementation("org.springframework.boot:spring-boot-starter-flyway")
+    /* flyway postgres specific module */
+    implementation("org.flywaydb:flyway-database-postgresql")
+
     //IDE mapping such as yml configs with javadocs, generates meta-data json at build time.
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     //project owned DTOs
     val disableLocalDto = System.getenv("DISABLE_LOCAL_DTO") == "true"
     if (disableLocalDto) {
-        implementation("com.jay.template:template-openapi-dtos:0.0.1-SNAPSHOT")
+        implementation("com.jay.apollo:apollo-openapi-dtos:0.0.1-SNAPSHOT")
     } else {
         implementation(project(":openapi-dtos"))
     }
@@ -123,7 +138,7 @@ tasks.withType<Test> { //test and functionalTest will use this runner
 
 //Spring boot
 springBoot {
-    mainClass.set("com.jay.template.Starter")
+    mainClass.set("com.jay.apollo.Starter")
     buildInfo()
 }
 
@@ -157,7 +172,7 @@ sonarqube {
         property("sonar.issue.ignore.multicriteria.openapiS1710.ruleKey", "java:S1710")
         property(
             "sonar.issue.ignore.multicriteria.openapiS1710.resourceKey",
-            "src/main/java/com/jay/template/api/**"
+            "src/main/java/com/jay/apollo/api/**"
         )
     }
 }
@@ -189,16 +204,16 @@ tasks.jacocoTestCoverageVerification {
             element = "CLASS"
 
             includes = listOf(
-                "com.jay.template.app.*",
-                "com.jay.template.infra.*",
-                "com.jay.template.web.*",
-                "com.jay.template.core.context.*"
+                "com.jay.apollo.app.*",
+                "com.jay.apollo.infra.*",
+                "com.jay.apollo.web.*",
+                "com.jay.apollo.core.context.*"
             )
 
             excludes = listOf(
                 //exclude any smoke test related package path.
-                "com.jay.template.*.smoke.*",
-                "com.jay.template.*.ping.*"
+                "com.jay.apollo.*.smoke.*",
+                "com.jay.apollo.*.ping.*"
             )
 
             limit {
