@@ -26,7 +26,8 @@ CREATE TABLE order_items (
     order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
     product_id UUID NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
     quantity INTEGER NOT NULL,
-    token_price_at_time INTEGER NOT NULL
+    token_price_at_time INTEGER NOT NULL,
+    UNIQUE (order_id, product_id)  -- same product can't appear twice in same order
 );
 
 -- foreign key indexes
