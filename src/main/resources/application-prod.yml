@@ -2,8 +2,12 @@ spring:
   config:
     activate:
       on-profile: prod
+
   lifecycle:
     timeout-per-shutdown-phase: 30s
+
+  flyway:
+    clean-disabled: false
 
 management:
   endpoints:
