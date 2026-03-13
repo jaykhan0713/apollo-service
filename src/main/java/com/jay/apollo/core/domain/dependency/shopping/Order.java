@@ -10,9 +10,9 @@ public record Order(
         int totalTokens,
         String status,
         OffsetDateTime createdAt,
-        List<Item> products
+        List<ProductOrder> products
 ) {
-    public record Item(
+    public record ProductOrder(
             Product product,
             int quantity
     ) {}
