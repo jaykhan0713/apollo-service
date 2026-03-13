@@ -4,7 +4,7 @@ spring:
       on-profile: dev
 
   flyway:
-    clean-disabled: true
+    clean-disabled: false
 
 management:
   prometheus:

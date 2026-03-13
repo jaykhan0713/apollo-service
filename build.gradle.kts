@@ -115,6 +115,10 @@ dependencies {
     //dependency DTOs
     //i.e ("com.jay.<service>:service-openapi-dtos:0.0.1-SNAPSHOT
 
+    //Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
     //test related
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

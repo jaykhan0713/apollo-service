@@ -131,7 +131,7 @@ platform: # namespace for Spring configuration keys
       user-id: "userId"
       request-id: "requestId"
       kind: "kind" # http, sqs etc
-      name: "name" # e.g. "/users/{id}", "queue:orders"
+      name: "name" # e.g. "/users/{id}", "queue:shopping"
       method: "method" #GET, POST, QUERY
       status: "status"
       duration-ms: "durationMs"

@@ -7,7 +7,7 @@ spring:
     timeout-per-shutdown-phase: 30s
 
   flyway:
-    clean-disabled: false
+    clean-disabled: true
 
 management:
   endpoints:
