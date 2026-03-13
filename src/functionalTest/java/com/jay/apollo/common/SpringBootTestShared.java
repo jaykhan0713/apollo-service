@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.TestConstructor;
 
 import com.jay.apollo.Starter;
@@ -21,6 +22,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Target(ElementType.TYPE) // use this annotation on class
 @Retention(RetentionPolicy.RUNTIME) //So Spring can see this annotation
 @AutoConfigureTestRestTemplate
+@ImportTestcontainers(PostgresTestContainerConfiguration.class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public @interface SpringBootTestShared {
 }
