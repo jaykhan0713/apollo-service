@@ -1,0 +1,1 @@
+- Exception Error Handling from DB calls

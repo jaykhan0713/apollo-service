@@ -7,7 +7,7 @@ public record Product(
         UUID id,
         String name,
         String description,
-        int token_price,
+        int tokenPrice,
         OffsetDateTime createdAt
 ) {
 }

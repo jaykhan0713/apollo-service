@@ -101,6 +101,14 @@ dependencies {
     /* flyway postgres specific module */
     implementation("org.flywaydb:flyway-database-postgresql")
 
+    //Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // MapStruct, must be after Lombok so can see
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
+
     //IDE mapping such as yml configs with javadocs, generates meta-data json at build time.
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
@@ -114,10 +122,6 @@ dependencies {
 
     //dependency DTOs
     //i.e ("com.jay.<service>:service-openapi-dtos:0.0.1-SNAPSHOT
-
-    //Lombok
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
 
     //test related
     testImplementation("org.springframework.boot:spring-boot-starter-test")

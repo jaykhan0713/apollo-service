@@ -1,8 +1,3 @@
-CREATE TABLE users (
-    id UUID PRIMARY KEY,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
 CREATE TABLE products (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL,
@@ -13,7 +8,8 @@ CREATE TABLE products (
 
 CREATE TABLE orders (
     id UUID PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    user_id UUID NOT NULL,
+    idempotency_key UUID NOT NULL UNIQUE, -- enforced at DB level
     total_tokens INTEGER NOT NULL,
     status TEXT NOT NULL CHECK (status IN ('PENDING', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -23,7 +19,7 @@ CREATE TABLE order_items (
     order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
     product_id UUID NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
     quantity INTEGER NOT NULL,
-    token_price_at_time INTEGER NOT NULL,
+    -- token_price_at_time INTEGER NOT NULL, -- TODO: Add back later
     PRIMARY KEY (order_id, product_id)
 );
 

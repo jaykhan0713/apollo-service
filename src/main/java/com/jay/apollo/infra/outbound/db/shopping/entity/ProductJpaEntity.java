@@ -1,4 +1,4 @@
-package com.jay.apollo.infra.outbound.db.shopping;
+package com.jay.apollo.infra.outbound.db.shopping.entity;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

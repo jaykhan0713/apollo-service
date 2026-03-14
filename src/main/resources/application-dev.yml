@@ -20,9 +20,3 @@ management:
     export:
       otlp:
         enabled: ${OTLP_ENABLED:false} #enable exporting SPANS
-
-debug: true
-logging:
-  level:
-    org.flywaydb: DEBUG
-    org.springframework.boot.autoconfigure.flyway: DEBUG
