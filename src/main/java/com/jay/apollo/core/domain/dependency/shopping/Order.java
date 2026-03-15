@@ -7,13 +7,11 @@ import java.util.UUID;
 public record Order(
         UUID id,
         UUID userId,
+        UUID idempotencyKey,
         int totalTokens,
         String status,
         OffsetDateTime createdAt,
-        List<ProductOrder> products
+        List<OrderItem> orderItems
 ) {
-    public record ProductOrder(
-            Product product,
-            int quantity
-    ) {}
+
 }

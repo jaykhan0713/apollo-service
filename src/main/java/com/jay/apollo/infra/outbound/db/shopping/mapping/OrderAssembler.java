@@ -5,10 +5,10 @@ import com.jay.apollo.infra.outbound.db.shopping.entity.OrderItemJpaEntity;
 import com.jay.apollo.infra.outbound.db.shopping.entity.OrderJpaEntity;
 
 public class OrderAssembler {
-    private final ProductMapper productMapper;
+    private final ShoppingMapper shoppingMapper;
 
-    public OrderAssembler(ProductMapper productMapper) {
-        this.productMapper = productMapper;
+    public OrderAssembler(ShoppingMapper shoppingMapper) {
+        this.shoppingMapper = shoppingMapper;
     }
 
     public Order toOrder(

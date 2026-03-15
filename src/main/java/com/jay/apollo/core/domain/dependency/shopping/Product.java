@@ -9,5 +9,4 @@ public record Product(
         String description,
         int tokenPrice,
         OffsetDateTime createdAt
-) {
-}
+) {}
