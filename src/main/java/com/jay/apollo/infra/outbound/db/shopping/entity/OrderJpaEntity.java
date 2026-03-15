@@ -1,6 +1,7 @@
 package com.jay.apollo.infra.outbound.db.shopping.entity;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.*;
@@ -28,6 +29,9 @@ public class OrderJpaEntity {
     private OrderStatus status;
 
     private OffsetDateTime createdAt;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItemJpaEntity> orderItems;
 
     public enum OrderStatus {
         PENDING, COMPLETE, CANCELLED

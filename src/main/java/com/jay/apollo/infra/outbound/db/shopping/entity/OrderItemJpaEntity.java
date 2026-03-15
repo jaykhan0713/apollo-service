@@ -29,7 +29,7 @@ public class OrderItemJpaEntity {
     @ManyToOne
     @MapsId("productId")  // maps to the productId field in the composite key
     @JoinColumn(name = "product_id")
-    private ProductJpaEntity product;  // ← Hibernate knows to JOIN products table
+    private ProductJpaEntity product;
 
     /*
      * NOTE: Hibernate uses equals and hashCode to compare and cache entities by their ID,
