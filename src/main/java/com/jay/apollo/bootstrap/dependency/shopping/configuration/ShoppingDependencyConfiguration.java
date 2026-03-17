@@ -7,9 +7,13 @@ import com.jay.apollo.infra.outbound.db.shopping.repository.OrderItemJpaReposito
 import com.jay.apollo.infra.outbound.db.shopping.repository.OrderJpaRepository;
 import com.jay.apollo.infra.outbound.db.shopping.repository.ProductJpaRepository;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class ShoppingDependencyConfiguration {
 
+    @Bean
     ShoppingDependency shoppingDependency(
             OrderJpaRepository orderRepo,
             OrderItemJpaRepository orderItemRepo,

@@ -98,16 +98,30 @@ management:
         http:
           server:
             requests: true
+        hikaricp:
+          connections:
+            acquire: true
 
       minimum-expected-value:
         http:
           server:
             requests: 1ms
+        hikaricp:
+          connections:
+            acquire: 1ms
 
       maximum-expected-value:
         http:
           server:
             requests: 5s
+        hikaricp:
+          connections:
+            acquire: 500ms
+    data:
+      repository:
+        autotime:
+          enabled: true
+
 
 resilience4j:
   bulkhead:
