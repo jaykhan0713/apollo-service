@@ -19,8 +19,6 @@ public class OrderItemJpaEntity {
 
     private Integer quantity;
 
-    private Integer tokenPriceAtTime;
-
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
