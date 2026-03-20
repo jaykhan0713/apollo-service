@@ -5,6 +5,7 @@ import java.util.List;
 import com.jay.apollo.api.v1.shopping.ProductDto;
 import com.jay.apollo.core.port.dependency.shopping.ShoppingDependency;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ShoppingService {
@@ -20,6 +21,7 @@ public class ShoppingService {
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true)
     public List<ProductDto> allProducts() {
         return this.shopping.products()
                 .stream()

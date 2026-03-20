@@ -1,0 +1,53 @@
+services:
+  apollo-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        CODEARTIFACT_ENDPOINT: ${CODEARTIFACT_ENDPOINT}
+        CODEARTIFACT_AUTH_TOKEN: ${CODEARTIFACT_AUTH_TOKEN}
+    image: apollo-service:dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+
+      #OTEL
+      OTLP_ENABLED: "true"
+      OTLP_ENDPOINT: "http://otel-collector:4318/v1/traces"
+      OTEL_SERVICE_NAME: "apollo-service"
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=apollo-service"
+
+      #SQL
+      SPRING_DATASOURCE_URL: jdbc:postgresql://apollo-postgres:5432/apollo
+      SPRING_DATASOURCE_USERNAME: apollo_user
+      SPRING_DATASOURCE_PASSWORD: apollo_password
+
+    networks: [platform, apollo-internal]
+    depends_on:
+      - apollo-postgres
+
+  apollo-postgres:
+    image: postgres:17
+    container_name: apollo-postgres
+    environment:
+      POSTGRES_DB: apollo
+      POSTGRES_USER: apollo_user
+      POSTGRES_PASSWORD: apollo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - apollo-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U apollo_user -d apollo' ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [apollo-internal]
+
+networks:
+  platform:
+    external: true
+  apollo-internal:
+    driver: bridge
+
+volumes:
+  apollo-postgres-data:
